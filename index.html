@@ -9,10 +9,42 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <nav></nav>
+<body class="bg-slate-50 text-slate-800">
+<!-- Nav bar -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3">
+       <img class="w-20 h-20" src="assets/logo.png" alt="">
+        <div>
+          <p class="text-base font-extrabold leading-5 text-green-600">Emergency <br> Service</p>
+        </div>
+      </div>
+
+      <!-- Right: counters -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Hearts -->
+        <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-green-50 px-3 py-1.5">
+        
+          <span id="heartCount" class="text-sm font-bold">0</span>
+          <img class="w-10 h-10" src="assets/heart.png" alt="">
+        </div>
+        <!-- Coins -->
+        <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-green-50 px-3 py-1.5">
+          <span id="coinCount" class="text-sm font-bold">100</span>
+          <img class="h-10 w-10" src="assets/coin.png" alt="">
+        </div>
+        <!-- Copy count -->
+        <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-green-500 px-3 py-3.5">
+           <span id="copyCount" class="text-sm font-bold text-white">0</span>
+          <span class="text-sm font-semibold text-white">Copy</span>
+         
+        </div>
+      </div>
+    </nav>
   </header>
+</div>
+</nav>
+</header>
   <section></section>
   <main></main>
   <footer></footer>
