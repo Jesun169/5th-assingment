@@ -57,5 +57,205 @@
 </div>
 </section>
 
+<!-- ============ MAIN ============ -->
+<main class="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+<!-- Card Section (9/12) -->
+<section class="lg:col-span-9">
+<div id="cardGrid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3"></div>
+</section>
+
+
+<!-- History (3/12) -->
+<aside class="lg:col-span-3">
+<div class="soft-card rounded-2xl border border-slate-200 bg-white">
+<div class="flex items-center justify-between border-b border-slate-200 p-4">
+<div class="flex items-center gap-2">
+<svg class="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v10a2 2 0 0 1-2 2H7"/><path d="M3 17V7a2 2 0 0 1 2-2h12"/><path d="m3 7 5 5-5 5"/></svg>
+<h3 class="text-base font-bold text-slate-800">Call History</h3>
+</div>
+<button id="clearHistoryBtn" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200">Clear</button>
+</div>
+<ul id="historyList" class="max-h-[620px] divide-y divide-slate-100 overflow-y-auto">
+<!-- Filled dynamically -->
+</ul>
+</div>
+</aside>
+</div>
+</main>
+<!-- ============ TEMPLATES ============ -->
+<template id="cardTemplate">
+<article class="soft-card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4">
+<div class="absolute right-3 top-3">
+<button class="heart group" aria-label="Like">
+<svg class="h-5 w-5 text-slate-300 group-[.liked]:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+<svg class="hidden h-5 w-5 text-rose-500 group-[.liked]:block" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.35-10-8.5C-1.1 8.4 1.1 4 5 4c2 0 3.4 1 4 2 .6-1 2-2 4-2 3.9 0 6.1 4.4 3 8.5C19.5 16.65 12 21 12 21z"/></svg>
+</button>
+</div>
+
+
+<div class="mb-3 flex items-start gap-3">
+<div class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-rose-100 text-rose-600" data-icon></div>
+<div>
+<h4 class="text-sm font-extrabold text-slate-800" data-name></h4>
+<p class="text-xs text-slate-500" data-english></p>
+</div>
+</div>
+
+
+<div class="mb-4 flex items-center justify-between">
+<div class="text-2xl font-black tracking-tight" data-number></div>
+<span class="badge" data-category></span>
+</div>
+
+
+<div class="mt-2 grid grid-cols-2 gap-2">
+<button class="btn btn-copy text-slate-800" data-copy>
+<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+Copy
+</button>
+<button class="btn btn-call" data-call>
+<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.15 9.81 19.79 19.79 0 0 1 .08 1.18 2 2 0 0 1 2.06-.99h3a2 2 0 0 1 2 1.72c.12.9.31 1.78.57 2.64a2 2 0 0 1-.45 2.11L6.12 6.91a16 16 0 0 0 7 7l1.43-1.05a2 2 0 0 1 2.11-.45c.86.26 1.74.45 2.64.57a2 2 0 0 1 1.72 2z"/></svg>
+Call
+</button>
+</div>
+</article>
+</template>
+<!-- ============ SCRIPTS ============ -->
+  <script>
+    // ======= Data for services =======
+    const services = [
+      { id: 'emergency', name: 'National Emergency Number', english: 'National Emergency', number: '999', category: 'All', iconBg: 'bg-rose-100', iconColor: 'text-rose-600', icon: emergencyIcon() },
+      { id: 'police', name: 'Police Helpline Number', english: 'Police', number: '999', category: 'Police', iconBg: 'bg-blue-100', iconColor: 'text-blue-600', icon: policeIcon() },
+      { id: 'fire', name: 'Fire Service Number', english: 'Fire Service', number: '999', category: 'Fire', iconBg: 'bg-orange-100', iconColor: 'text-orange-600', icon: fireIcon() },
+      { id: 'ambulance', name: 'Ambulance Service', english: 'Ambulance', number: '1994-999999', category: 'Health', iconBg: 'bg-green-100', iconColor: 'text-green-600', icon: ambulanceIcon() },
+      { id: 'women', name: 'Women & Child Helpline', english: 'Women & Child Helpline', number: '109', category: 'Help', iconBg: 'bg-pink-100', iconColor: 'text-pink-600', icon: womenIcon() },
+      { id: 'anticorruption', name: 'Anti-Corruption Helpline', english: 'Anti-Corruption', number: '106', category: 'Govt.', iconBg: 'bg-purple-100', iconColor: 'text-purple-600', icon: shieldIcon() },
+      { id: 'electricity', name: 'Electricity Helpline', english: 'Electricity Outage', number: '16216', category: 'Electricity', iconBg: 'bg-yellow-100', iconColor: 'text-yellow-700', icon: boltIcon() },
+      { id: 'brac', name: 'Brac Helpline', english: 'BRAC', number: '16465', category: 'NGO', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', icon: handIcon() },
+      { id: 'rail', name: 'Bangladesh Railway Helpline', english: 'Bangladesh Railway', number: '163', category: 'Travel', iconBg: 'bg-sky-100', iconColor: 'text-sky-600', icon: trainIcon() },
+    ];
+
+    // ======= State =======
+    let heartCount = 0;
+    let copyCount = 0;
+    let coins = 100; // default
+
+    const heartCountEl = document.getElementById('heartCount');
+    const copyCountEl = document.getElementById('copyCount');
+    const coinCountEl = document.getElementById('coinCount');
+    const cardGrid = document.getElementById('cardGrid');
+    const historyList = document.getElementById('historyList');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    // ======= Render Cards =======
+    const tpl = document.getElementById('cardTemplate');
+    services.forEach(svc => {
+      const $ = tpl.content.cloneNode(true);
+      const root = $.querySelector('article');
+      root.dataset.sid = svc.id;
+      const iconWrap = $.querySelector('[data-icon]');
+      const nameEl = $.querySelector('[data-name]');
+      const engEl = $.querySelector('[data-english]');
+      const numberEl = $.querySelector('[data-number]');
+      const catEl = $.querySelector('[data-category]');
+      const copyBtn = $.querySelector('[data-copy]');
+      const callBtn = $.querySelector('[data-call]');
+      const heartBtn = $.querySelector('.heart');
+
+      iconWrap.classList.add(svc.iconBg, svc.iconColor);
+      iconWrap.innerHTML = svc.icon;
+      nameEl.textContent = svc.name;
+      engEl.textContent = svc.english;
+      numberEl.textContent = svc.number;
+      catEl.textContent = svc.category;
+
+      // Heart
+      heartBtn.addEventListener('click', () => {
+        heartCount++;
+        heartCountEl.textContent = heartCount;
+        heartBtn.classList.toggle('liked');
+      });
+
+      // Copy
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await copyToClipboard(svc.number);
+          copyCount++;
+          copyCountEl.textContent = copyCount;
+          alert(`Copied: ${svc.name} ( ${svc.number} )`);
+        } catch (e) {
+          alert('Copy failed. Please copy manually: ' + svc.number);
+        }
+      });
+
+      // Call
+      callBtn.addEventListener('click', () => handleCall(svc));
+
+      cardGrid.appendChild($);
+    });
+
+    // ======= Handlers =======
+    function handleCall(service){
+      if(coins < 20){
+        alert('Not enough coins. You need at least 20 coins to call.');
+        return;
+      }
+      coins -= 20;
+      coinCountEl.textContent = coins;
+
+      alert(`Calling ${service.name} ( ${service.number} )`);
+      addHistory(service.name, service.number);
+    }
+
+    function addHistory(name, number){
+      const li = document.createElement('li');
+      li.className = 'flex items-start justify-between gap-3 px-4 py-3 hover:bg-slate-50';
+
+      const left = document.createElement('div');
+      left.innerHTML = `<p class="text-[13px] font-bold text-slate-800">${name}</p>
+                        <p class="text-xs text-slate-500">${number}</p>`;
+
+      const time = document.createElement('span');
+      time.className = 'ml-2 shrink-0 text-[11px] font-semibold text-slate-500';
+      time.textContent = currentTime();
+
+      li.appendChild(left);
+      li.appendChild(time);
+      historyList.prepend(li);
+    }
+
+    function currentTime(){
+      const now = new Date();
+      return now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    }
+
+    async function copyToClipboard(text){
+      if(navigator.clipboard && window.isSecureContext){
+        return navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for non-secure contexts
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+      }
+    }
+
+    clearHistoryBtn.addEventListener('click', () => {
+      historyList.innerHTML = '';
+    });
+
+    // ======= Icons (inline SVG strings) =======
+    function emergencyIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>`}
+    function policeIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"/></svg>`}
+    function fireIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-2 1-4 4-8z"/><path d="M12 14a4 4 0 0 0-4 4 4 4 0 1 0 8 0 4 4 0 0 0-4-4z"/></svg>`}
+    function ambulanceIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13V8a2 2 0 0 1 2-2h6l3 3h3a2 2 0 0 1 2 2v2"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/><path d="M8 8v4M6 10h4"/></svg>`}
+    function womenIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M12 11v10M9 18h6"/></svg>`}
+    function shieldIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-3.5 8-7 10C8.5 20 5 17 5 12V6l7-4z"/></svg>`}
+    function boltIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 11-12h-7l1-8z"/></svg>`}
+    function handIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s2-2 4 0 4 0 6-2 6-2 8 0v6a4 4 0 0 1-4 4H8a6 6 0 0 1-6-6z"/></svg>`}
+    function trainIcon(){return `<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M8 21l-2-2h12l-2 2M8 14h8"/></svg>`}
+  </script>
 </body>
 </html>
